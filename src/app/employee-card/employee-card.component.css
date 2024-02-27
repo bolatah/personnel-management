@@ -1,0 +1,55 @@
+/* employee-card.component.css */
+.employee-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 16px;
+  background-color: #f4f4f4;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-picture {
+  margin-right: 16px;
+}
+
+img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.employee-info {
+  flex: 1;
+  text-align: center; 
+}
+
+h2 {
+  color: #333;
+}
+
+p {
+  margin: 8px 0;
+  color: #777;
+}
+
+.tabs {
+  margin-top: 16px;
+  width: 100%; /* Make tabs full width */
+}
+
+/* Customize tab styles as needed */
+::ng-deep .ui-tabview-nav li {
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+}
+
+::ng-deep .ui-tabview-nav li.ui-state-active {
+  background-color: #ddd;
+}

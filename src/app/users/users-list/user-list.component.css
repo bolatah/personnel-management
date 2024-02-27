@@ -1,0 +1,29 @@
+:host ::ng-deep {
+  
+  .search-bar {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+  .short-id {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  
+  .full-id {
+    position: absolute;
+    left: 0;
+    background-color: #fff; 
+    padding: 5px;
+    border: 1px solid #ccc; 
+    z-index: 1;
+    display: none;
+  }
+  
+  .short-id:hover .full-id {
+    display: block;
+  }
+  
+  }

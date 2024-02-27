@@ -1,0 +1,51 @@
+<div class="card">
+    <p-table #dt1 [value]="users!" dataKey="_id" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      >
+  
+      <ng-template pTemplate="caption">
+        <div class="search-bar">
+         <!--  <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="handleSearchInput($event)" placeholder="Search keyword" />
+          </span> -->
+          <span (click)="openConvertToUserDialog()">
+            <i class="pi pi-plus" title="Add User"></i>
+          </span>
+        </div>
+      </ng-template>
+  
+      <ng-template pTemplate="header">
+        <!-- Similar header structure as the employee-list -->
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-user>
+        <tr *ngIf="users && users.length > 0">
+          <td><a [routerLink]="['/employees', user.employeeId]">
+            <div class="short-id" *ngIf="user.employeeId" (mouseenter)="showFullId = true"
+            (mouseleave)="showFullId = false">
+            {{ getShortenedId(user.employeeId) }}
+            <div *ngIf="showFullId" class="full-id">
+              {{ user.employeeId }}
+            </div>
+          </div>
+            </a></td>
+          <td>{{ user.employeeInfo.name }}</td>
+          <td>{{ user.roles }}</td>
+          <td>
+            <button pButton icon="pi pi-ellipsis-h"
+              class="button" (click)="menu.toggle($event); setContextMenuData(user)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <p-menu #menu [model]="items" [popup]="true"></p-menu>
+  <p-toast></p-toast>
+  

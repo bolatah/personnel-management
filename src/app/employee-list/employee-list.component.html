@@ -1,0 +1,115 @@
+<div class="card" >
+  <p-table #dt1 [value]="employees!" dataKey="_id" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['_id', 'personalInformation.name', 'personalInformation.age', 'employmentDetails.position', 'employmentDetails.status']" (onFilter)="handleFilterEvent($event)">
+  
+    <ng-template pTemplate="caption">
+      <div class="search-bar">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="handleSearchInput($event)" placeholder="Search keyword" />
+        </span>
+        <span (click)="openAddEmployeeForm()">
+          <i class="pi pi-plus" title="Add Employee"></i>
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          <div class="flex align-items-center">
+            ID
+            <p-columnFilter type="text" field="_id" display="menu"></p-columnFilter>
+          </div>
+        </th>
+        <th pSortableColumn="personalInformation.name">
+          <div class="flex align-items-center">
+            Name
+            <ng-container *ngIf="!isFilterApplied; else removingFilterIcon">
+              <p-columnFilter class="filter-icon" type="text" field="personalInformation.name" display="menu"
+                title="Filter"></p-columnFilter>
+            </ng-container>
+            <ng-template #removingFilterIcon>
+              <span class="pi pi-filter-slash" (click)="clear(dt1)" title="Remove Filter"></span>
+            </ng-template>
+            <p-sortIcon field="personalInformation.name" title="Sort"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="personalInformation.age">
+          <div class="flex align-items-center">
+            Age
+            <ng-container *ngIf="!isFilterApplied; else removingFilterIcon">
+              <p-columnFilter class="filter-icon" type="text" field="personalInformation.age" display="menu"
+                title="Filter"></p-columnFilter>
+            </ng-container>
+            <ng-template #removingFilterIcon>
+              <span class="pi pi-filter-slash" (click)="clear(dt1)" title="Remove Filter"></span>
+            </ng-template>
+            <p-sortIcon field="personalInformation.age" title="Sort"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="employmentDetails.position">
+          <div class="flex align-items-center">
+            Position
+            <ng-container *ngIf="!isFilterApplied; else removingFilterIcon">
+              <p-columnFilter class="filter-icon" type="text" field="employmentDetails.position" display="menu"
+                title="Filter"></p-columnFilter>
+            </ng-container>
+            <ng-template #removingFilterIcon>
+              <span class="pi pi-filter-slash" (click)="clear(dt1)" title="Remove Filter"></span>
+            </ng-template>
+            <p-sortIcon field="employmentDetails.position" title="Sort"></p-sortIcon>
+          </div>
+        </th>
+
+        <th pSortableColumn="employmentDetails.status">
+          <div class="flex align-items-center">
+            Status
+            <ng-container *ngIf="!isFilterApplied; else removingFilterIcon">
+              <p-columnFilter class="filter-icon" type="text" field="employmentDetails.status" matchMode="equals" display="menu"
+                title="Filter">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                    placeholder="Any">
+                    <ng-template let-option pTemplate="item">
+                      <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </ng-container>
+            <ng-template #removingFilterIcon>
+              <span class="pi pi-filter-slash" (click)="clear(dt1)" title="Remove Filter"></span>
+            </ng-template>
+            <p-sortIcon field="employmentDetails.status" title="Sort"></p-sortIcon>
+          </div>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-employee>
+      <tr *ngIf="employees && employees.length > 0">
+        <td><a [routerLink]="['/employees', employee._id]">
+            <div class="short-id" *ngIf="employee._id" (mouseenter)="showFullId = true"
+              (mouseleave)="showFullId = false">
+              {{ getShortenedId(employee._id) }}
+              <div *ngIf="showFullId" class="full-id">
+                {{ employee._id }}
+              </div>
+            </div>
+          </a></td>
+        <td>{{ employee.personalInformation.name }}</td>
+        <td>{{ employee.personalInformation.age }}</td>
+        <td>{{ employee.employmentDetails.position }}</td>
+       <!--  <td>{{ employee.employmentDetails.status.value }}</td> -->
+        <td>
+          <button pButton icon="pi pi-ellipsis-h" (click)="menu.toggle($event); setContextMenuData(employee)"
+            class="button"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-menu #menu [model]="items" [popup]="true"></p-menu>
+<p-toast></p-toast>

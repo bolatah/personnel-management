@@ -1,0 +1,32 @@
+
+<div class="dashboard-container">
+    <!-- First Line: Total Employees, Missing Employees, Birthdays -->
+    <div class="dashboard-line">
+      <p-card class="dashboard-card">
+        <ng-container *ngIf="totalEmployees !== null">
+          <div class="card-header">Total Employees</div>
+          <div class="card-content">{{ totalEmployees }}</div>
+        </ng-container>
+      </p-card>
+  
+     <!--  <p-card class="dashboard-card">
+        <ng-container *ngIf="missingEmployees !== null">
+          <div class="card-header">Missing Employees</div>
+          <div class="card-content">{{ missingEmployees }}</div>
+        </ng-container>
+      </p-card> -->
+  
+      <p-card class="dashboard-card">
+        <ng-container *ngIf="upcomingBirthdays !== null">
+          <div class="card-header">Upcoming Birthdays</div>
+          <div class="card-content" (click)="openUpcomingBirthdaysDialog()">{{ upcomingBirthdaysNumber }}</div>
+        </ng-container>
+      </p-card>
+    </div>
+  
+    <!-- Second Line: Bar Graph -->
+    <p-card class="graph-card">
+      <div class="card-header">Employees by Department</div>
+      <!-- Add PrimeNG bar graph component here -->
+    </p-card>
+  </div>

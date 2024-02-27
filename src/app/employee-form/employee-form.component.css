@@ -1,0 +1,49 @@
+/* General Styles */
+:host {
+  display: block;
+  width: 100%;
+  margin: 20px auto;
+}
+
+/* Form Section Styles */
+p-fieldset {
+  margin-bottom: 20px;
+}
+
+/* Form Row Styles */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-right: 15px;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+/* Buttons Style */
+button {
+  margin-right: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-group {
+    margin-right: 0;
+  }
+
+  button {
+    margin-bottom: 10px;
+  }
+}

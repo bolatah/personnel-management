@@ -1,0 +1,48 @@
+<!-- employee-card.component.html -->
+<div *ngIf="employee" class="employee-card">
+    <div class="header">
+      <div *ngIf="employee.profilePicture" class="profile-picture">
+        <img [src]="employee.profilePicture" alt="Employee Profile" />
+      </div>
+      <div class="employee-info">
+        <h2>{{ employee.personalInformation.name }}</h2>
+        <p>{{ employee.employmentDetails.position }}</p>
+        <p>Age: {{ employee.personalInformation.age }}</p>
+        <button pButton icon="pi pi-arrow-left" (click)="goBack()" class="back-button"></button>
+      </div>
+    </div>
+  
+    <div class="tabs">
+      <p-tabView>
+        <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title">
+      
+          <ng-container [ngSwitch]="tab.key">
+            <div *ngSwitchCase="'General Information'">
+              <h3>{{ tab.title }}</h3>
+              <p><strong>Name:</strong> {{ employee.personalInformation.name }}</p>
+              <p><strong>Birthday</strong> {{ employee.personalInformation.birthday }}</p>
+              <!-- Add more general information fields as needed -->
+            </div>
+            <div *ngSwitchCase="'Working Hours'">
+              <!-- Content for Working Hours -->
+              <!-- Include employee's working hours details here -->
+            </div>
+            <div *ngSwitchCase="'Training'">
+              <!-- Content for Training -->
+              <!-- Include employee's training details here -->
+            </div>
+            <div *ngSwitchCase="'Salary'">
+              <!-- Content for Salary -->
+              <!-- Include employee's salary details here -->
+            </div>
+            <div *ngSwitchCase="'Skills'">
+              <!-- Content for Skills -->
+              <!-- Include employee's skills details here -->
+            </div>
+            <!-- Add more ngSwitchCase based on your tabs -->
+          </ng-container>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+  

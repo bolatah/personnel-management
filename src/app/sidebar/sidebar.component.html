@@ -1,0 +1,20 @@
+<p-sidebar [(visible)]="showSidebar" [baseZIndex]="1000">
+  <div class="sidebar-content">
+    <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: items }"></ng-container>
+
+    <ng-template #recursiveMenu let-items>
+      <ul>
+        <li *ngFor="let item of items" class="sidebar-item">
+          <div (click)="onTabClick(item)" class="sidebar-tab" [ngClass]="{ 'active-tab': activeNestedTab === item.label }">
+            <i class="{{ item.icon }} tab-icon"></i>
+            <span class="tab-label">{{ item.label }}</span>
+            <i *ngIf="item.items" class="arrow-icon pi pi-chevron-down"></i>
+          </div>
+          <div *ngIf="item.items && activeNestedTab === item.label" class="nested-tabs">
+            <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: item.items }"></ng-container>
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+</p-sidebar>
