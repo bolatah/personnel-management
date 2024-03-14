@@ -8,7 +8,7 @@
     "start": "ng serve",
     "start:frontend-node": "concurrently \"npm run start\" \"npm run start:node\"",
     "start:frontend-java": "concurrently \"npm run start\" \"npm run start:java\"",
-    "build": "ng build",
+    "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
