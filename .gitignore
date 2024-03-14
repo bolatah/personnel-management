@@ -11,7 +11,7 @@
 **/node_modules
 **/cache/
 # /src/environments/
-**/environment.ts
+
 **/application.properties
 **/.env
 # profiling files
