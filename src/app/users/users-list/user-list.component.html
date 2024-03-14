@@ -35,9 +35,10 @@
               {{ user.employeeId }}
             </div>
           </div>
-            </a></td>
-          <td>{{ user.employeeInfo.name }}</td>
-          <td>{{ user.roles }}</td>
+            </a>
+          </td>
+          <td> {{ user.employeeInfo ? user.employeeInfo.name : ""  }}</td>
+          <td>{{ user.role }}</td>
           <td>
             <button pButton icon="pi pi-ellipsis-h"
               class="button" (click)="menu.toggle($event); setContextMenuData(user)"></button>

@@ -3,31 +3,32 @@
     margin-bottom: 5px;
   }
   
-  .sidebar-tab {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: #f0f0f0;
-    }
-  
-    &.active-tab {
-      background-color: #e0e0e0;
-    }
+.sidebar-tab {
+  display: flex;
+  align-items: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
   }
+
+  &.active-tab {
+    background-color: #e0e0e0;
+  }
+}
   
   .tab-icon {
-    margin-right: 8px; /* Adjust the space between icon and label */
+    margin-right: 8px; 
   }
   
   .tab-label {
-    flex-grow: 1; /* Allow label to grow and fill available space */
+    flex-grow: 1; 
   }
   
-  .nested-tabs {
-    margin-left: 20px; /* Adjust the margin for nested tabs */
+  .closing-icon {
+    display: flex-end;
   }
   

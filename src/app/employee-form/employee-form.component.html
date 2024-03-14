@@ -1,7 +1,5 @@
 <form [formGroup]="employeeForm" id="employeeForm" class="employee-form"
   [ngStyle]="{ 'overflow-y': showCalendar ? 'auto' : 'hidden' }" (ngSubmit)="onSubmit()">
-  <!--   <p-message severity="error" *ngIf="employeeForm.invalid" text="Das Formular enthält ungültige Daten. Bitte überprüfen Sie die Eingaben."></p-message>
- --> <!-- Personal Information Card -->
   <p-fieldset *ngIf="currentSection === 'personalInformation'" legend="Personal Information"
     formGroupName="personalInformation">
     <!-- Row 1 -->
@@ -11,8 +9,7 @@
       </div>
 
       <div class="form-group">
-        <p-calendar (click)="toggleCalendar()" [iconDisplay]="'input'" [showIcon]="true" formControlName="birthday">
-          placeholder="Birthday">
+        <p-calendar (click)="toggleCalendar()" placeholder="Birthday" [iconDisplay]="'input'" [showIcon]="true" formControlName="birthday"  [style]="{ 'width': '250px'}">
           <ng-template pTemplate="inputicon">
             <i class="pi pi-calendar"></i>
           </ng-template>
@@ -29,7 +26,7 @@
         <input type="text" formControlName="phone" pInputText placeholder="Phone" />
       </div>
     </div>
-    <div class="form-buttons">
+    <div class="form-buttons-single-element">
       <button type="button" pButton icon="pi pi-arrow-right" (click)="nextSection()">
       </button>
     </div>
@@ -42,7 +39,7 @@
     <!-- Row 1 -->
     <div class="form-row">
       <div class="form-group">
-        <p-calendar (click)="toggleCalendar()" [iconDisplay]="'input'" [showIcon]="true" formControlName="hireDate">
+        <p-calendar (click)="toggleCalendar()" [iconDisplay]="'input'" [showIcon]="true" formControlName="hireDate"
           placeholder="Hire Date">
           <ng-template pTemplate="inputicon">
             <i class="pi pi-calendar"></i>
@@ -62,21 +59,11 @@
       <div class="form-group">
         <input type="number" formControlName="salaryAmount" pInputText placeholder="Amount">
         <p-dropdown formControlName="salaryCurrency" id="currency" [options]="currencyOptions"
-          optionLabel="name"></p-dropdown>
+          ></p-dropdown>
       </div>
       <div class="form-group">
-        <p-dropdown [options]="statuses" formControlName="status" optionLabel="label" [filter]="true" filterBy="label"
-          [showClear]="true" placeholder="Status">
-          <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2">
-              <div>{{ employeeForm.get('employmentDetails.status')?.value.label }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-status pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ status.label }}</div>
-            </div>
-          </ng-template>
+        <p-dropdown [options]="statusOptions" formControlName="status" 
+           [showClear]="true" placeholder="Status">
         </p-dropdown>
       </div>
     </div>
@@ -87,24 +74,24 @@
     </div>
   </p-fieldset>
 
-  <!-- Skills -->
-  <div class="form-group" *ngIf="currentSection === 'skills'">
-    <!--    <input type="text" formControlName="skills" pInputText placeholder="Skills"> -->
-    <!-- Input field for typing skills -->
-    <input type="text" #skillInput  pInputText placeholder="Enter Skill">
-    <p-dropdown #proficiencyDropdown placeholder="Select Proficiency"
-      [options]="['Beginner', 'Average', 'Expert']"></p-dropdown>
-    <button pButton label="Add Skill" (click)="addSkill(skillInput.value, proficiencyDropdown.value)"></button>
+  <p-fieldset *ngIf="currentSection === 'skills'" formArrayName="skills" legend="Skills">
+    <div *ngIf="employeeForm.get('skills')" >
 
-    <!-- Display entered skills -->
-    <div *ngFor="let skillEntry of skillEntries">
-      {{ skillEntry.skill }} - {{ skillEntry.proficiency }}
+      <div class="form-group"  *ngFor="let skillGroup of skillControls; let i = index" [formGroupName]="i">
+        <input type="text" pInputText formControlName="skill" placeholder="Enter Skill">
+        <p-dropdown [options]="proficiencyOptions" formControlName="proficiency" placeholder="Enter Proficiency"></p-dropdown>
+        <button type="button" pButton icon="pi pi-times" (click)="removeSkill(i)"></button>
+      </div>
     </div>
-
+    
+    <div class="form-buttons-single-element">
+      <button type="button" pButton label="Add Skill" (click)="addSkill()"></button>
+    </div>
+    
     <div class="form-buttons">
       <button pButton icon="pi pi-arrow-left" (click)="prevSection()"></button>
       <button type="submit" [disabled]="!employeeForm.valid" pButton>Submit</button>
     </div>
-  </div>
+  </p-fieldset>
 
 </form>

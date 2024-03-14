@@ -1,0 +1,26 @@
+
+<form [formGroup]="absentForm" id="absentForm" (ngSubmit)="markAbsent()" 
+[ngStyle]="{ 'overflow-y': showCalendar ? 'auto' : 'hidden' }">
+
+  <div class="p-field">
+    <p-dropdown formControlName="selectedEmployeeId" [options]="employees" optionLabel="personalInformation.name" placeholder="Select Employee"></p-dropdown>
+  </div>
+
+  <div class="p-field" (click)="toggleCalendar()">
+    <p-calendar id="startTime" formControlName="startDate" [showIcon]="true" placeholder="Start Date"></p-calendar>
+  </div>
+
+  <div class="p-field" (click)="toggleCalendar()">
+    <p-calendar id="endTime" formControlName="endDate" [showIcon]="true" placeholder="End Date"></p-calendar>
+  </div>
+  
+  <div class="p-field" (click)="toggleCalendar()">
+    <p-dropdown formControlName="reason" [options]="absenceReasonOptions"  placeholder="Absence Reason"></p-dropdown>
+  </div>
+
+  <div class="p-field">
+    <button pButton type="submit" label="Submit" [disabled]="!absentForm.valid" ></button>
+    <button pButton type="button" label="Cancel" (click)="cancel()"></button>
+  </div>
+
+</form>

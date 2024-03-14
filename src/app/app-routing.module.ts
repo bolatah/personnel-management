@@ -8,6 +8,10 @@ import { UserService } from './users/users-list/user.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
+
+  {
+    path: '', component: DashboardComponent
+  },
   {
     path: 'dashboard', component: DashboardComponent
   },

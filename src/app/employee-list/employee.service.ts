@@ -76,30 +76,36 @@ export class EmployeeService {
   deleteEmployee(employeeId: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiUrl}/${employeeId}`);
   }
-    // Method to get the total number of employees
-    getTotalEmployeesCount(): Promise<number> {
-      return this.getEmployees().then(
-        (employees) => employees.length
-      );
-    }
+ 
+  getTotalEmployeesCount(): Promise<number> {
+    return this.getEmployees().then(
+      (employees) => employees.length
+    );
+  }
 
-      // Method to get employees whose birthdays are coming in the next 7 days
-      getUpcomingBirthdays(): Observable<Employee[]> {
-        const currentDate = new Date();
-        const sevenDaysLater = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
-        
-        return this.employeesSubject.pipe(
-          // Use map to filter employees based on upcoming birthdays
-          map(employees => {
-            if (!employees) {
-              return [];
-            }
-            return employees.filter(employee =>
-              employee.personalInformation.birthday &&
-              new Date( employee.personalInformation.birthday).getTime() >= currentDate.getTime() &&
-              new Date( employee.personalInformation.birthday).getTime() <= sevenDaysLater.getTime()
-            );
-          })
+  
+  getUpcomingBirthdays(): Observable<Employee[]> {
+    const currentDate = new Date();
+    const sevenDaysLater = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    
+    return this.employeesSubject.pipe(
+      // Use map to filter employees based on upcoming birthdays
+      map(employees => {
+        if (!employees) {
+          return [];
+        }
+        return employees.filter(employee =>
+          employee.personalInformation.birthday &&
+          new Date( employee.personalInformation.birthday).getDate() >= currentDate.getDate() &&
+          new Date( employee.personalInformation.birthday).getDate() <= sevenDaysLater.getDate()
         );
-      }
+      })
+    );
+  }
+
+  markEmployeeAsMissing(employeeId: string, startDate: Date, endDate: Date): Observable<void> {
+    const missingFlag = true; // You can customize this as per your requirement
+    const missingPeriod = { start: startDate, end: endDate }; // Additional parameters for duration
+    return this.httpClient.patch<void>(`${this.apiUrl}/${employeeId}`, { missing: missingFlag, missingPeriod });
+  }
 }

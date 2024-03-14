@@ -1,36 +1,54 @@
-import { Component, ViewChild, OnInit, Inject, ElementRef } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  Inject,
+  ElementRef,
+} from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ValidatorFn,
+  AbstractControl,
+  FormArray,
+} from '@angular/forms';
 import { Employee } from '../employee-list/employee.model';
 import { EmployeeService } from '../employee-list/employee.service';
+import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-employee-form',
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.css'],
 })
+
 export class EmployeeFormComponent implements OnInit {
   @ViewChild('skillInput') skillInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('proficiencyDropdown') proficiencyDropdown!: any; // Use appropriate type
+  @ViewChild('proficiencyDropdown') proficiencyDropdown!: any;
 
   employee: Employee | null = null;
   currentSection: 'personalInformation' | 'employmentDetails' | 'skills' =
     'personalInformation';
-  departmentOptions: string[] = ['HR', 'Finance', 'Marketing', 'IT'];
-  positionOptions: string[] = ['Manager', 'Engineer', 'Analyst', 'Consultant'];
   skillEntries: { skill: string; proficiency: string }[] = [];
   employeeForm!: FormGroup;
-  statuses: any[] | undefined;
-  skills: string[] = [];
   isEditing = false;
   showCalendar: boolean = false;
   hasFormErrors: boolean = false;
-  currencyOptions: any[] = [
-    { name: 'USD', value: 'USD' },
-    { name: 'EUR', value: 'EUR' },
-    { name: 'TRY', value: 'TRY' },
+  departmentOptions: string[] = ['HR', 'Finance', 'Marketing', 'IT'];
+  positionOptions: string[] = ['Manager', 'Engineer', 'Analyst', 'Consultant'];
+  currencyOptions: string[] = ['USD', 'EUR', 'TRY'];
+  statusOptions: string[] = [
+    'Unqualified',
+    'Qualified',
+    'New',
+    'Negotiation',
+    'Renewal',
+    'Proposal',
   ];
-  rangeDates: Date[] | undefined;
+  proficiencyOptions: string[] = ['Beginner', 'Average', 'Expert'];
+
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
@@ -39,15 +57,6 @@ export class EmployeeFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.statuses = [
-      { label: 'Unqualified', value: 'unqualified' },
-      { label: 'Qualified', value: 'qualified' },
-      { label: 'New', value: 'new' },
-      { label: 'Negotiation', value: 'negotiation' },
-      { label: 'Renewal', value: 'renewal' },
-      { label: 'Proposal', value: 'proposal' },
-    ];
-
     this.employeeForm = this.fb.group({
       personalInformation: this.fb.group({
         name: [
@@ -69,18 +78,22 @@ export class EmployeeFormComponent implements OnInit {
           ],
         ],
         address: [''],
-        birthday: [undefined],
+        birthday: [undefined, this.validateBirthday],
       }),
       employmentDetails: this.fb.group({
         position: [''],
         department: [''],
         hireDate: [undefined],
-
         salaryAmount: [null, Validators.min(0)],
-        salaryCurrency: [{ name: 'EUR', value: 'EUR' }],
-        status: [''],
+        salaryCurrency: ['EUR'],
+        status: ['Unqualified'],
       }),
-      skills: [''],
+      skills: this.fb.array([
+        this.fb.group({
+          skill: [''],
+          proficiency: [''],
+        }),
+      ]),
     });
 
     if (
@@ -93,33 +106,29 @@ export class EmployeeFormComponent implements OnInit {
       this.employeeForm.patchValue(this.config.data.employee);
     }
 
-    // Subscribe to changes in the hireDate control
-
     const hireDateControl = this.employeeForm.get('employmentDetails.hireDate');
     const birthdayControl = this.employeeForm.get(
       'personalInformation.birthday'
     );
-    console.log(hireDateControl, birthdayControl);
-    if (hireDateControl) {
-      hireDateControl.valueChanges.subscribe(() => {
-        this.showCalendar = false;
-        this.adjustFormSize(); // Optionally adjust the form size after hiding the calendar
-      });
-    }
+
     if (birthdayControl) {
-      birthdayControl.valueChanges.subscribe(() => {
-        this.showCalendar = false;
-        this.adjustFormSize(); // Optionally adjust the form size after hiding the calendar
-      });
+      birthdayControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe(() => {
+          this.showCalendar = false;
+          this.adjustFormSize();
+        });
+    }
+
+    if (hireDateControl) {
+      hireDateControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe(() => {
+          this.showCalendar = false;
+          this.adjustFormSize();
+        });
     }
   }
-
-  /*   salaryCurrencyRequiredIfAmountEntered(group: FormGroup) {
-    const amount = group.get('amount')?.value;
-    const currency = group.get('currency')?.value;
-
-    return amount && !currency ? { salaryCurrencyRequired: true } : null;
-  } */
 
   toggleCalendar() {
     this.showCalendar = true;
@@ -127,18 +136,47 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   adjustFormSize() {
-    // Adjust form size based on the showCalendar state
     const formElement = document.getElementById('employeeForm');
     if (formElement) {
       if (this.showCalendar) {
-        formElement.style.width = '1000px'; // Adjust width as needed
-        formElement.style.height = '650px'; // Adjust height as needed
+        formElement.style.width = '90%';
+        formElement.style.height = '70vh';
       } else {
         formElement.style.width = '100%';
         formElement.style.height = 'auto';
       }
     }
   }
+
+  validateBirthday: ValidatorFn = (
+    control: AbstractControl
+  ): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+
+    if (control.pristine) {
+      return null;
+    }
+
+    const birthdayDate = new Date(control.value);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthdayDate.getFullYear();
+    const monthDiff = today.getMonth() - birthdayDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthdayDate.getDate())
+    ) {
+      age--;
+    }
+
+    if (age < 16) {
+      return { invalidAge: true };
+    }
+
+    return null;
+  };
 
   nextSection() {
     const personalInformationForm = this.employeeForm.get(
@@ -166,19 +204,30 @@ export class EmployeeFormComponent implements OnInit {
     }
   }
 
-  addSkill(skill: string, proficiency: string) {
-    if (skill && proficiency) {
-      this.skillEntries.push({ skill, proficiency });
-      // Clear input fields after adding skill
-      this.clearInputFields();
-    }
+  // Add skill to the skills FormArray
+  addSkill() {
+    (this.employeeForm.get('skills') as FormArray).push(
+      this.fb.group({
+        skill: [''], // Initialize skill FormControl
+        proficiency: [''], // Initialize proficiency FormControl
+      })
+    );
   }
-  
-  clearInputFields() {
-    // Clear skill input and proficiency dropdown
+
+  removeSkill(index: number) {
+    (this.employeeForm.get('skills') as FormArray).removeAt(index);
+  }
+
+  // Getter method to safely retrieve the controls of the skills FormArray
+  get skillControls(): AbstractControl[] {
+    console.log(this.employeeForm.get('skill'));
+    return (this.employeeForm.get('skills') as FormArray).controls;
+  }
+
+  /*   clearInputFields() {
     this.skillInput.nativeElement.value = '';
     this.proficiencyDropdown.clear();
-  }
+  } */
 
   onSubmit() {
     const controls = this.employeeForm.controls;

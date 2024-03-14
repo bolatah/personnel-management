@@ -18,6 +18,8 @@ export class Employee {
   _id?: string;
   profilePicture?: any;
   skills?: string[];
+  missing?: boolean;
+  missingPeriod: any; 
 
   constructor(data: any) {
     data = data || {};
@@ -39,5 +41,7 @@ export class Employee {
     };
     this.skills = data.skills || [];
     this._id = data._id || '';
+    this.missing = data.missing || false;
+    this.missingPeriod = data.missingPeriod || null;  
   }
 }

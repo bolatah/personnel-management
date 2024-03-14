@@ -11,6 +11,7 @@ export class ConfirmationDialogComponent<T> {
   @Input() data: T | undefined; 
   @Output() acceptEvent = new EventEmitter<void>();
   @Output() rejectEvent = new EventEmitter<void>();
+  
   display: boolean = true;
 
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig) {
@@ -26,9 +27,11 @@ export class ConfirmationDialogComponent<T> {
         next: () => {
           console.log('Object deleted successfully.');
           this.config.data.updateList();
+          this.ref.close(true);
         },
         error: (error: any) => {
           console.error('Error deleting object:', error);
+          this.display = true;
         },
       });
     }

@@ -18,28 +18,18 @@ import { Router } from '@angular/router';
 import { User } from '../users/users-list/user.model';
 import { UserService } from '../users/users-list/user.service';
 
-const statuses = [
-  { label: 'Unqualified', value: 'unqualified' },
-  { label: 'Qualified', value: 'qualified' },
-  { label: 'New', value: 'new' },
-  { label: 'Negotiation', value: 'negotiation' },
-  { label: 'Renewal', value: 'renewal' },
-  { label: 'Proposal', value: 'proposal' },
-];
-
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.css'],
 })
-
 export class EmployeeListComponent {
   @Input() employees: Employee[] | null = [];
   @ViewChild(Menu, { static: true }) contextMenu!: Menu;
   @ViewChild(Table, { static: true }) dt1!: Table;
-  contextMenuVisible = false;
+
   isFilterApplied = false;
-  statuses!: any[];
+  departments!: any[];
   employeesSubscription: Subscription | undefined;
   items: MenuItem[] | undefined;
   contextMenuData: Employee | null = null;
@@ -49,15 +39,19 @@ export class EmployeeListComponent {
     private employeeService: EmployeeService,
     private messageService: MessageService,
     private dialogService: DialogService,
-    private filterService : FilterService,
+    private filterService: FilterService,
     private userService: UserService,
     private cd: ChangeDetectorRef,
     private router: Router
   ) {}
 
   ngOnInit() {
-  
-    this.statuses = statuses;
+    this.departments =[
+      { label: 'HR', value: 'hr' },
+      { label: 'Finance', value: 'finance' },
+      { label: 'Marketing', value: 'marketing' },
+      { label: 'IT', value: 'it' },
+    ]; 
     this.items = [
       {
         label: 'View Details',
@@ -80,14 +74,13 @@ export class EmployeeListComponent {
         this.employees = updatedEmployees;
         this.cd.markForCheck();
       });
-      console.log(this.employees)
+    console.log(this.employees);
   }
 
   handleSearchInput(event: any) {
     const inputElement = event.target as HTMLInputElement;
     this.dt1.filterGlobal(inputElement.value, 'contains');
   }
-
 
   handleFilterEvent(event: any) {
     this.isFilterApplied = this.checkFilter(event.filters);
@@ -98,7 +91,7 @@ export class EmployeeListComponent {
     const keys = Object.keys(filters);
 
     if (keys.length === 0) {
-      return false; 
+      return false;
     }
 
     const hasValidFilter = keys.some((key) => {
@@ -113,7 +106,6 @@ export class EmployeeListComponent {
 
     return hasValidFilter;
   }
-
 
   getSeverity(status: string): string | undefined {
     if (status === 'High') {
@@ -140,7 +132,6 @@ export class EmployeeListComponent {
 
     ref.onClose.subscribe((result: any) => {
       if (result) {
-        // Handle the result if needed
         console.log('Form submitted:', result);
       }
     });
@@ -171,39 +162,49 @@ export class EmployeeListComponent {
     }
   }
 
- async deleteEmployee() {
+  async deleteEmployee() {
     if (this.contextMenuData) {
       // Check if the employee is also a user
-      const user = (await this.userService.getUsers()
-      .then((response) => response.filter((user) => user.employeeId === this.contextMenuData!._id)))[0];
-      console.log(user)
-      
+      const user = (
+        await this.userService
+          .getUsers()
+          .then((response) =>
+            response.filter(
+              (user) => user.employeeId === this.contextMenuData!._id
+            )
+          )
+      )[0];
+
       if (user) {
         // If the employee is also a user, ask for confirmation
-    const userRef =  this.dialogService.open(ConfirmationDialogComponent, {
+        const userRef = this.dialogService.open(ConfirmationDialogComponent, {
           header: 'Confirmation',
           data: {
             data: this.contextMenuData,
-         deleteFunction: () =>   this.userService.deleteUser(user._id as any),
+            deleteFunction: () => this.userService.deleteUser(user._id as any),
             updateList: () => this.userService.getUsers(),
           },
           width: '500px',
         });
-  
+
         userRef.onClose.subscribe((userResult) => {
           if (userResult !== undefined) {
-            console.log(userResult)
-  
-            const employeeRef = this.dialogService.open(ConfirmationDialogComponent, {
-              header: 'Confirmation',
-              data: {
-                data: this.contextMenuData,
-                deleteFunction: (employee: Employee) => this.employeeService.deleteEmployee(employee._id as any),
-                updateList: () => this.employeeService.getEmployees(),
-              },
-              width: '500px',
-            });
-  
+            console.log(userResult);
+
+            const employeeRef = this.dialogService.open(
+              ConfirmationDialogComponent,
+              {
+                header: 'Confirmation',
+                data: {
+                  data: this.contextMenuData,
+                  deleteFunction: (employee: Employee) =>
+                    this.employeeService.deleteEmployee(employee._id as any),
+                  updateList: () => this.employeeService.getEmployees(),
+                },
+                width: '500px',
+              }
+            );
+
             employeeRef.onClose.subscribe((employeeResult) => {
               if (employeeResult) {
                 this.messageService.add({
@@ -221,12 +222,13 @@ export class EmployeeListComponent {
           header: 'Confirmation',
           data: {
             data: this.contextMenuData,
-            deleteFunction: (employee: Employee) => this.employeeService.deleteEmployee(employee._id as any),
+            deleteFunction: (employee: Employee) =>
+              this.employeeService.deleteEmployee(employee._id as any),
             updateList: () => this.employeeService.getEmployees(),
           },
           width: '500px',
         });
-  
+
         ref.onClose.subscribe((result) => {
           if (result) {
             this.messageService.add({
@@ -239,7 +241,6 @@ export class EmployeeListComponent {
       }
     }
   }
-  
 
   viewEmployeeDetails() {
     if (this.contextMenuData) {
@@ -252,7 +253,7 @@ export class EmployeeListComponent {
     const maxLength = 8;
     return id.length > maxLength ? id.slice(0, maxLength) + '...' : id;
   }
-  
+
   ngOnDestroy() {
     this.employeesSubscription?.unsubscribe();
   }

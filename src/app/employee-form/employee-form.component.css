@@ -1,4 +1,7 @@
-/* General Styles */
+:host ::ng-deep .p-datepicker {
+  max-width: 300px; 
+}
+
 :host {
   display: block;
   width: 100%;
@@ -20,17 +23,23 @@ p-fieldset {
 .form-group {
   margin-right: 15px;
   margin-bottom: 15px;
+  display: flex;
   flex-grow: 1;
 }
 
-/* Buttons Style */
 button {
   margin-right: 10px;
 }
 
-.form-buttons {
+.form-buttons-single-element {
   display: flex;
   justify-content: flex-end;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
 /* Responsive Styles */

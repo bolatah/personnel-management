@@ -1,32 +1,34 @@
-
 <div class="dashboard-container">
-    <!-- First Line: Total Employees, Missing Employees, Birthdays -->
-    <div class="dashboard-line">
-      <p-card class="dashboard-card">
-        <ng-container *ngIf="totalEmployees !== null">
-          <div class="card-header">Total Employees</div>
-          <div class="card-content">{{ totalEmployees }}</div>
-        </ng-container>
-      </p-card>
-  
-     <!--  <p-card class="dashboard-card">
+  <!-- First Line: Total Employees, Missing Employees, Birthdays -->
+  <div class="dashboard-line">
+    <button class="dashboard-card">
+      <div class="card-header">Total Employees</div>
+      <div class="card-content">{{ employees.length }}</div>
+    </button>
+
+     <button class="dashboard-card">
         <ng-container *ngIf="missingEmployees !== null">
           <div class="card-header">Missing Employees</div>
-          <div class="card-content">{{ missingEmployees }}</div>
+          <div class="card-content">{{ missingEmployees.length }}</div>
         </ng-container>
-      </p-card> -->
-  
-      <p-card class="dashboard-card">
-        <ng-container *ngIf="upcomingBirthdays !== null">
-          <div class="card-header">Upcoming Birthdays</div>
-          <div class="card-content" (click)="openUpcomingBirthdaysDialog()">{{ upcomingBirthdaysNumber }}</div>
-        </ng-container>
-      </p-card>
-    </div>
-  
-    <!-- Second Line: Bar Graph -->
+      </button> 
+
+    <button class="dashboard-card" title="Employees Having Birthday Soon!">
+      <div class="card-header">Upcoming Birthdays</div>
+      <div class="card-content" (click)="openUpcomingBirthdaysDialog()">{{ upcomingBirthdaysNumber }}</div>
+    </button>
+  </div>
+  <!-- Second Line: Bar Graph -->
+  <div class="dashboard-line">
     <p-card class="graph-card">
       <div class="card-header">Employees by Department</div>
-      <!-- Add PrimeNG bar graph component here -->
+      <div id="department" style="width: 100%; height: 400px;"></div>
+    </p-card>
+
+    <p-card class="graph-card">
+      <div class="card-header">Employees by Position</div>
+      <div id="position" style="width: 100%; height: 400px;"></div>
     </p-card>
   </div>
+  
+</div>

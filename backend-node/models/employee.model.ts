@@ -19,7 +19,9 @@ interface IEmployee {
     };
     skills?: string[];
     _id?: ObjectId;
-    // Add other properties as needed
+    missing?: boolean;
+    missingPeriod: any; 
+ 
   }
 
   export default IEmployee;

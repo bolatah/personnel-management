@@ -1,7 +1,13 @@
-<p-sidebar [(visible)]="showSidebar" [baseZIndex]="1000">
-  <div class="sidebar-content">
+<button pButton type="button" icon="pi pi-bars"  (click)="toggleSidebar()">
+</button> 
+<p-sidebar [(visible)]="showSidebar"  
+[baseZIndex]="1000"  [showCloseIcon]="false" 
+>
+  <div class="closing-icon" (click)="onClickCloseIcon()">
+    <i class="pi pi-times"></i>
+  </div>
+  <div class="sidebar-content" >
     <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: items }"></ng-container>
-
     <ng-template #recursiveMenu let-items>
       <ul>
         <li *ngFor="let item of items" class="sidebar-item">
@@ -18,3 +24,4 @@
     </ng-template>
   </div>
 </p-sidebar>
+

@@ -38,9 +38,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UserService } from './users/users-list/user.service';
 import { UserListComponent } from './users/users-list/user-list.component';
-import { ConvertToUserDialogComponent } from './users/user-dialog/user-dialog.component';
+import { ConvertEmployeeToUserComponent } from './users/user-form/user-form.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpcomingBirthdaysDialogComponent } from './dashboard/ birthday-dialog/birthday-dialog.component';
+import { PanelModule } from 'primeng/panel';
+import { ChipModule } from 'primeng/chip';
+import { AbsentDialogComponent } from './sidebar/absent-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,8 +56,9 @@ import { UpcomingBirthdaysDialogComponent } from './dashboard/ birthday-dialog/b
     EmployeeCardComponent, 
     DynamicValidationDirective,
     UserListComponent,
-    ConvertToUserDialogComponent,
-    UpcomingBirthdaysDialogComponent
+    ConvertEmployeeToUserComponent,
+    UpcomingBirthdaysDialogComponent,
+    AbsentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -84,8 +88,10 @@ import { UpcomingBirthdaysDialogComponent } from './dashboard/ birthday-dialog/b
     InputNumberModule, 
     MenubarModule,
     DropdownModule,
-    TabMenuModule
-
+    TabMenuModule,
+    PanelModule, 
+   
+    ChipModule,
   ],
   providers: [
     ContextMenuService, 
@@ -94,7 +100,7 @@ import { UpcomingBirthdaysDialogComponent } from './dashboard/ birthday-dialog/b
     UserService,
     ConfirmationService,
     DynamicDialogRef,
-    DynamicDialogConfig
+    DynamicDialogConfig, 
   ],
   bootstrap: [AppComponent]
 })

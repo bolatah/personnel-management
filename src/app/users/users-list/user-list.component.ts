@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/employee-list/employee.model';
-import { ConvertToUserDialogComponent } from '../user-dialog/user-dialog.component';
+import {ConvertEmployeeToUserComponent } from '../user-form/user-form.component';
 import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   isFilterApplied = false;
   usersSubscription: Subscription | undefined;
   items: MenuItem[] | undefined;
- contextMenuData: User | null = null;
+  contextMenuData: User | null = null;
   showFullId = false;
 /*   displayConvertToUserDialog = false; // Flag to control the visibility of the conversion dialog */
   selectedUserForConversion: Employee | null = null;
@@ -60,7 +60,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   openConvertToUserDialog() {
-    const ref = this.dialogService.open(ConvertToUserDialogComponent, {
+    const ref = this.dialogService.open(ConvertEmployeeToUserComponent, {
       header: 'Convert Employee to User',
       width: '70%',
       data: {
@@ -76,7 +76,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
    editUser() {
     if (this.contextMenuData) {
-      const ref = this.dialogService.open(ConvertToUserDialogComponent, {
+      const ref = this.dialogService.open(ConvertEmployeeToUserComponent, {
         header: 'Edit User',
         width: '400px',
         data: { user: this.contextMenuData },
@@ -119,12 +119,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     }
   }
 
- 
-
-/* closeConvertToUserDialog() {
-  // Close the dialog without converting
-  this.displayConvertToUserDialog = false;
-} */
 
 getShortenedId(id: string) {
   const maxLength = 8;

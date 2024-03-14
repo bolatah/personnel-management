@@ -15,7 +15,6 @@
   }
   
   .dashboard-card {
-    border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
     width: 200px;
@@ -25,6 +24,8 @@
   .card-header {
     font-weight: bold;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
   }
   
   .card-content {
@@ -33,6 +34,7 @@
   
   .graph-card {
     width: 80%;
+    height: 100%;
   }
   
   /* Add more styling as needed */
