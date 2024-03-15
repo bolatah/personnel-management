@@ -6,7 +6,7 @@
     "start:node": "cd backend-node && nodemon --exec ts-node server.ts",
     "start:java": "cd backend-spring-boot && mvn spring-boot:run",   
     "start:frontend-node": "concurrently \"npm run start\" \"npm run start:node\"",
-    "start": "concurrently \"ng serve\" \"npm run start:java\"",
+    "start": "ng serve",
     "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
