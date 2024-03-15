@@ -4,10 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start:node": "cd backend-node && nodemon --exec ts-node server.ts",
-    "start:java": "cd backend-spring-boot && mvn spring-boot:run",
-    "start": "./node_modules/.bin/ng serve",
+    "start:java": "cd backend-spring-boot && mvn spring-boot:run",   
     "start:frontend-node": "concurrently \"npm run start\" \"npm run start:node\"",
-    "start:frontend-java": "concurrently \"npm run start\" \"npm run start:java\"",
+    "start": "concurrently \"ng serve\" \"npm run start:java\"",
     "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
