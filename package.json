@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently \"ng serve\" \"npm run start:java\"",
+    "start:java": "java -jar backend-spring-boot/target/backend-spring-boot-0.0.1-SNAPSHOT.jar",
     "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
