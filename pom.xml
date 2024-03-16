@@ -54,6 +54,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<excludeDevtools>false</excludeDevtools> 
+                    <mainClass>com.example.BackendSpringBootApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
