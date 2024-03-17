@@ -10,10 +10,10 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.18</version>
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.personnelmanagement</groupId>
 	<artifactId>backend-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend-spring-boot</name>
+	<!-- <name>backend-spring-boot</name> -->
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
@@ -53,7 +53,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<excludeDevtools>false</excludeDevtools> 
-                    <mainClass>com.example.BackendSpringBootApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
