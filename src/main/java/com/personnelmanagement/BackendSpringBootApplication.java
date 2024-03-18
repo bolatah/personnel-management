@@ -1,4 +1,4 @@
-package com.personnelmanagement.backendspringboot;
+package com.personnelmanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
