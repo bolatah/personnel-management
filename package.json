@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"ng serve\" \"npm run start:java\"",
+    "start": "concurrently \"cd angular-frontend && ng serve\" \"npm run start:java\"",
     "start:java": "java -jar target/backend-spring-boot-0.0.1-SNAPSHOT.jar",
-    "build": "ng build --configuration=production",
+    "build": "cd angular-frontend && ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
