@@ -47,13 +47,12 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.example.BackendSpringBootApplication</mainClass>
+					<mainClass>com.personnelmanagement.BackendSpringBootApplication</mainClass>
 					<excludeDevtools>false</excludeDevtools> 
 				</configuration>
 			</plugin>
