@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "concurrently \"cd angular-frontend && ng serve\" \"npm run start:java\"",
     "start:java": "java -jar target/backend-spring-boot-0.0.1-SNAPSHOT.jar",
-    "build": "cd angular-frontend && ng build --configuration=production",
+    "build": "cd angular-frontend && npx http-server -p -c-1 dist/personnel-management",
+    "build-local": "cd angular-frontend && ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
