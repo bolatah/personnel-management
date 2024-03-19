@@ -1,6 +1,7 @@
 com/personnelmanagement/backendspringboot/model/EmployeeInfo.class
 com/personnelmanagement/backendspringboot/model/Employee$Skill.class
 com/personnelmanagement/backendspringboot/service/EmployeeService.class
+main/java/com/personnelmanagement/config/WebConfig.class
 com/personnelmanagement/backendspringboot/service/UserService.class
 com/personnelmanagement/backendspringboot/controller/UserController.class
 com/personnelmanagement/backendspringboot/model/Employee$MissingPeriod.class
