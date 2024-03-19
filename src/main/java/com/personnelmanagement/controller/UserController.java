@@ -1,7 +1,7 @@
 package com.personnelmanagement.backendspringboot.controller;
 
-import com.personnelmanagement.backendspringboot.model.User;
-import com.personnelmanagement.backendspringboot.service.UserService;
+import com.personnelmanagement.model.User;
+import com.personnelmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

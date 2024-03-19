@@ -1,9 +1,9 @@
-package com.personnelmanagement.backendspringboot.service;
+package com.personnelmanagement.service;
 
-import com.personnelmanagement.backendspringboot.model.Employee;
-import com.personnelmanagement.backendspringboot.model.User;
-import com.personnelmanagement.backendspringboot.repository.EmployeeRepository;
-import com.personnelmanagement.backendspringboot.repository.UserRepository;
+import com.personnelmanagement.model.Employee;
+import com.personnelmanagement.model.User;
+import com.personnelmanagement.repository.EmployeeRepository;
+import com.personnelmanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

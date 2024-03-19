@@ -1,6 +1,6 @@
-package com.personnelmanagement.backendspringboot.repository;
+package com.personnelmanagement.repository;
 
-import com.personnelmanagement.backendspringboot.model.User;
+import com.personnelmanagement.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

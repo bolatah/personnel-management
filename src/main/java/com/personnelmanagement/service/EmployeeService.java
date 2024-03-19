@@ -1,8 +1,8 @@
-package com.personnelmanagement.backendspringboot.service;
+package com.personnelmanagement.service;
 
-import com.personnelmanagement.backendspringboot.model.Employee;
-import com.personnelmanagement.backendspringboot.model.Employee.MissingPeriod;
-import com.personnelmanagement.backendspringboot.repository.EmployeeRepository;
+import com.personnelmanagement.model.Employee;
+import com.personnelmanagement.model.Employee.MissingPeriod;
+import com.personnelmanagement.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
