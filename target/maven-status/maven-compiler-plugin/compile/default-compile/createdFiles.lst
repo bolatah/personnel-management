@@ -1,6 +1,5 @@
 com/personnelmanagement/controller/EmployeeController.class
 com/personnelmanagement/model/Employee$EmploymentDetails.class
-main/java/com/personnelmanagement/config/WebConfig.class
 com/personnelmanagement/BackendSpringBootApplication.class
 com/personnelmanagement/model/User.class
 com/personnelmanagement/service/UserService.class
@@ -11,6 +10,7 @@ com/personnelmanagement/model/Employee.class
 com/personnelmanagement/model/Employee$Skill.class
 com/personnelmanagement/repository/EmployeeRepository.class
 com/personnelmanagement/controller/SpaController.class
+com/personnelmanagement/config/WebConfig.class
 com/personnelmanagement/backendspringboot/controller/UserController.class
 com/personnelmanagement/service/EmployeeService.class
 com/personnelmanagement/config/WebMvcConfig.class
