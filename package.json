@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"cd personnel-management-dict && npx http-server -p 4200\" \"java -jar target/backend-spring-boot-0.0.1-SNAPSHOT.jar\"",
+    "start": "concurrently \"cd personnel-management-dict && npx http-server\" \"java -jar target/backend-spring-boot-0.0.1-SNAPSHOT.jar\"",
     "start:java": "java -jar target/backend-spring-boot-0.0.1-SNAPSHOT.jar",
     "build-local": "cd angular-frontend && ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
