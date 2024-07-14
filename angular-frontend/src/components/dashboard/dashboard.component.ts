@@ -1,42 +1,40 @@
 import { Component } from '@angular/core';
 import * as echarts from 'echarts';
+import { EmployeeService } from '../employee-list/employee.service';
 import { UpcomingBirthdaysDialogComponent } from './ birthday-dialog/birthday-dialog.component';
+import { DialogService } from 'primeng/dynamicdialog';
 import { Employee } from '../models/employee.model';
-import { EmployeeService } from '../services/employee.service';
-import { MatDialog } from '@angular/material/dialog';
-import { MatCard } from '@angular/material/card';
-import { select, Store } from '@ngrx/store';
-import { selectAllEmployees } from '../store/selectors/employees.selectors';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
-  standalone: true,
-  imports: [MatCard],
 })
 export class DashboardComponent {
   constructor(
-    private dialog: MatDialog,
-    private store: Store,
-    private employeesService: EmployeeService
+    private dialogService: DialogService,
+    private employeeService: EmployeeService
   ) {}
-  // props related to the charts
+
   departmentChart: any;
   positionChart: any;
-  employees: Employee[] = [];
-  missingEmployees: Employee[] = [];
+  employees: Employee[] | [] = [];
+  missingEmployees: Employee[] | [] = [];
   upcomingBirthdaysNumber: number | null = null;
   upcomingBirthdays: Employee[] = [];
-
+  
   ngOnInit(): void {
-    this.store.pipe(select(selectAllEmployees)).subscribe((employees) => {
-      this.employees = employees;
-      this.missingEmployees = this.employees.filter(
-        (employee) => employee.missing === true
-      );
-      this.initDepartmentChart();
-      this.initPositionChart();
-    });
+    this.employeeService.getEmployees().then(
+      (employees) => {
+        this.employees = employees;
+        this.missingEmployees = this.employees.filter((employee)=> employee.missing === true)
+        this.initDepartmentChart();
+        this.initPositionChart();
+      },
+      (error) => {
+        console.error('Error fetching total employees:', error);
+      }
+    );
     this.fetchUpcomingBirthdays();
   }
 
@@ -163,19 +161,20 @@ export class DashboardComponent {
 
   openUpcomingBirthdaysDialog() {
     if (this.upcomingBirthdaysNumber && this.upcomingBirthdaysNumber > 0) {
-      const ref = this.dialog.open(UpcomingBirthdaysDialogComponent, {
+      const ref = this.dialogService.open(UpcomingBirthdaysDialogComponent, {
+        header: 'Upcoming Birthdays',
         data: {
           header: 'Upcoming Birthdays',
           employees: this.upcomingBirthdays,
         },
       });
 
-      ref.afterClosed().subscribe(() => {});
+      ref.onClose.subscribe(() => {});
     }
   }
 
   fetchUpcomingBirthdays() {
-    this.employeesService.getUpcomingBirthdays().subscribe({
+    this.employeeService.getUpcomingBirthdays().subscribe({
       next: (employees) => {
         this.upcomingBirthdays = employees;
         this.upcomingBirthdaysNumber = employees.length;

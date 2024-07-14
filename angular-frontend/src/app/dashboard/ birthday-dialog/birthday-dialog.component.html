@@ -7,10 +7,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of employeesHavingBirthday">
-        <td>{{ employee.personalInformation.name }}</td>
-        <td>{{ employee.personalInformation.birthday | date:'dd-MM-yyyy' }}</td>
-      </tr>
+      @for(employee of employeesHavingBirthday; track employee) {
+        <tr >
+          <td>{{ employee.personalInformation.name }}</td>
+          <td>{{ employee.personalInformation.birthday | date:'dd-MM-yyyy' }}</td>
+        </tr>
+      }
+     
     </tbody>
   </table>
 </div>

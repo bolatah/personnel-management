@@ -1,34 +1,37 @@
-<div class="p-fluid" >
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" >
-    <div  class="p-field" *ngIf="!isEditing" >
-      <p-dropdown
-        [options]="employees"
-        optionLabel="personalInformation.name"
-        placeholder="Select an employee"
-        [filter]="true"
-        filterBy="personalInformation.name"
-        formControlName="employee"
-        [virtualScroll]="true"
-      ></p-dropdown>
-    </div>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  @if(data.action==='Add'){
 
-    <div *ngIf="isEditing">
-      <p-chip label="{{user?.employeeInfo.name}}">
-      </p-chip>
-    </div>
+  <h2>Add an User</h2>
 
-    <div class="p-field">
-      <p-dropdown
-        [options]="roleOptions"
-        placeholder="Select a role"
-        formControlName="role"
-        [virtualScroll]="true"
-      ></p-dropdown>
-    </div>
+  <mat-form-field appearance="fill" class="form-row">
+    <mat-label>Select an employee</mat-label>
+    <mat-select formControlName="employee">
+      <mat-option *ngFor="let employee of nonUserEmployees" [value]="employee._id">
+        {{ employee.personalInformation.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  } @else if(data.action==='Edit'){
+  <h2>Edit User</h2>
+  <div class="form-row">
+    <mat-chip>
+      {{ data.user.employeeInfo.name }}
+    </mat-chip>
+  </div>
+  }
 
-    <div class="p-dialog-footer">
-      <button pButton type="submit" label="Submit"></button>
-      <button pButton type="button" (click)="onCancel()" label="Cancel"></button>
-    </div>
-  </form>
-</div>
+
+  <mat-form-field appearance="fill" class="form-row">
+    <mat-label>Select a role</mat-label>
+    <mat-select formControlName="role">
+      <mat-option *ngFor="let role of roleOptions" [value]="role.value">
+        {{ role.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="form-actions">
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

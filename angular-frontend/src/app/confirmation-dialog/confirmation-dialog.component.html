@@ -1,13 +1,8 @@
-
-<div >
-    <div >
-        <p>Are you sure you want to proceed?</p>
-      </div>
-      <p-footer >
-        <button pButton type="button" label="No" (click)="reject()"></button>
-        <button pButton type="button" label="Yes" (click)="accept()"></button>
-      </p-footer>
+<h1 mat-dialog-title>Confirmation</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to proceed?</p>
 </div>
-  
-
-  
+<div mat-dialog-actions>
+  <button mat-raised-button  (click)="accept()">Yes</button>
+  <button mat-raised-button  (click)="reject()">No</button>
+</div>

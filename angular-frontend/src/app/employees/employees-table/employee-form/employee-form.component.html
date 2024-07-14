@@ -1,0 +1,155 @@
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+
+  @if(currentSection === 'personalInformation') {
+  <div formGroupName="personalInformation">
+    <h2 class="form-row">Personal Information
+      <button mat-icon-button type="button" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </h2>
+    <!-- Row 1 -->
+    <div class="form-row">
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Birthday</mat-label>
+          <input matInput [matDatepicker]="birthdayPicker" formControlName="birthday" required>
+          <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
+          <mat-datepicker #birthdayPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="form-row">
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Phone</mat-label>
+          <input matInput type="text" formControlName="phone">
+        </mat-form-field>
+      </div>
+    </div>
+    <button type="button" mat-raised-button (click)="nextSection()" class="form-row">Next</button>
+  </div>
+  }
+
+
+  <!-- Employment Details Card -->
+  @if(currentSection === 'employmentDetails'){
+  <div formGroupName="employmentDetails">
+    <h2 class="form-row">Employment Details
+      <button mat-icon-button type="button" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </h2>
+    <!-- Row 1 -->
+    <div class="form-row">
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Hire Date</mat-label>
+          <input matInput [matDatepicker]="hireDatePicker" formControlName="hireDate">
+          <mat-datepicker-toggle matSuffix [for]="hireDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #hireDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Position</mat-label>
+          <mat-select formControlName="position">
+            <mat-option *ngFor="let option of positionOptions" [value]="option">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="department">
+            <mat-option *ngFor="let option of departmentOptions" [value]="option">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" [disableRipple]="true">
+            <mat-option *ngFor="let option of statusOptions" [value]="option">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="form-row">
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>Salary Amount</mat-label>
+          <input matInput type="number" formControlName="salaryAmount">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Salary Currency</mat-label>
+          <mat-select formControlName="salaryCurrency">
+            <mat-option *ngFor="let option of currencyOptions" [value]="option">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+     
+    </div>
+    <div class="form-row">
+      <button mat-raised-button type="button" (click)="prevSection()">Previous</button>
+      <button mat-raised-button type="button" (click)="nextSection()">Next</button>
+    </div>
+
+  </div>
+  }
+
+  @if(currentSection === 'skills'){
+  <div formArrayName="skills">
+    <h2 class="form-row">Skills
+      <button mat-icon-button type="button" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </h2>
+    @if(employeeForm.get('skills')){
+      <div class="form-row">
+        <div class="form-field" *ngFor="let skillGroup of skillControls; let i = index" [formGroupName]="i">
+          <mat-form-field appearance="fill">
+            <mat-label>Skill</mat-label>
+            <input matInput type="text" formControlName="skill" >
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Proficiency</mat-label>
+            <mat-select formControlName="proficiency">
+              <mat-option *ngFor="let option of proficiencyOptions" [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button type="button" (click)="addSkill()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="removeSkill(i)">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+   
+    <div class="form-row">
+      <button mat-raised-button type="button" (click)="prevSection()">Previous</button>
+      <button mat-raised-button type="submit" [disabled]="!employeeForm.valid">Submit</button>
+    </div>
+  </div>
+  }
+
+</form>

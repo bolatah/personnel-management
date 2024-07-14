@@ -1,0 +1,13 @@
+:host{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.form-row{
+    margin-bottom: 15px;
+}
+
+.form-row mat-chip{
+    min-width: 150px;
+}

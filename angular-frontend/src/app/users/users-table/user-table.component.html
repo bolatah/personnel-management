@@ -1,0 +1,64 @@
+<div class="top-bar">
+  <span mat-button (click)="openDialog('Add')" title="Add User">
+   <mat-icon >add</mat-icon>
+  </span>
+</div>
+
+<div class="mat-elevation-z2">
+ 
+
+  <table mat-table class="full-width-table" matSort [dataSource]="dataSource" aria-label="Elements">
+    <!-- ID Column -->
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let user">
+        <a [routerLink]="['/employees', user.employeeId]">
+          <div class="short-id" *ngIf="user.employeeId" (mouseenter)="showFullId = true"
+            (mouseleave)="showFullId = false">
+            {{ getShortenedId(user.employeeId) }}
+            <div *ngIf="showFullId" class="full-id">
+              {{ user.employeeId }}
+            </div>
+          </div>
+        </a>
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let user">
+        {{ user.employeeInfo ? user.employeeInfo.name : "" }}
+      </td>
+    </ng-container>
+
+    <!-- Role Column -->
+    <ng-container matColumnDef="Role">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+      <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef> Actions</th>
+      <td mat-cell *matCellDef="let user">
+       
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openDialog('Edit', user)">Edit</button>
+          <button mat-menu-item (click)="deleteUser(user)">Delete</button>
+        </mat-menu>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Declarations -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let user; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

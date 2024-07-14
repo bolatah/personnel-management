@@ -1,45 +1,51 @@
-// confirmation-dialog.component.ts
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { Employee } from '../models/employee.model';
+import { User } from '../models/user.model';
+import { Observable } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-confirmation-dialog',
+  standalone: true,
+  imports: [MatButtonModule],
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.css'],
 })
-export class ConfirmationDialogComponent<T> {
-  @Input() data: T | undefined; 
+export class ConfirmationDialogComponent {
   @Output() acceptEvent = new EventEmitter<void>();
   @Output() rejectEvent = new EventEmitter<void>();
-  
+
   display: boolean = true;
 
-  constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig) {
-    if (this.config.data && this.config.data.data) {
-      this.data = { ...this.config.data.data };
-    }
-  }
+  constructor(
+    public ref: MatDialogRef<ConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data : {action: string , item : Employee | User, serviceMethode : () => Observable<any>}
+  ) {}
 
   accept() {
-    this.acceptEvent.emit();
-    if (this.data) {
-      this.config.data.deleteFunction(this.data).subscribe({
+    this.acceptEvent.emit();    
+     if (this.data.action === 'Delete' && this.data.item ) {
+      this.data.serviceMethode().subscribe({
         next: () => {
           console.log('Object deleted successfully.');
-          this.config.data.updateList();
-          this.ref.close(true);
+          this.ref.close(this.data.item);
         },
         error: (error: any) => {
           console.error('Error deleting object:', error);
           this.display = true;
         },
       });
-    }
-   /*  this.ref.close(true); */
+    } 
+    this.ref.close(); 
   }
 
   reject() {
     this.rejectEvent.emit();
-    this.ref.close(false);
+    this.ref.close();
   }
 }

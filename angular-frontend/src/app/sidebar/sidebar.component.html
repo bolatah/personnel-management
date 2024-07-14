@@ -1,27 +1,45 @@
-<button pButton type="button" icon="pi pi-bars"  (click)="toggleSidebar()">
-</button> 
-<p-sidebar [(visible)]="showSidebar"  
-[baseZIndex]="1000"  [showCloseIcon]="false" 
->
-  <div class="closing-icon" (click)="onClickCloseIcon()">
-    <i class="pi pi-times"></i>
-  </div>
-  <div class="sidebar-content" >
-    <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: items }"></ng-container>
-    <ng-template #recursiveMenu let-items>
-      <ul>
-        <li *ngFor="let item of items" class="sidebar-item">
-          <div (click)="onTabClick(item)" class="sidebar-tab" [ngClass]="{ 'active-tab': activeNestedTab === item.label }">
-            <i class="{{ item.icon }} tab-icon"></i>
-            <span class="tab-label">{{ item.label }}</span>
-            <i *ngIf="item.items" class="arrow-icon pi pi-chevron-down"></i>
-          </div>
-          <div *ngIf="item.items && activeNestedTab === item.label" class="nested-tabs">
-            <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: item.items }"></ng-container>
-          </div>
-        </li>
-      </ul>
-    </ng-template>
-  </div>
-</p-sidebar>
+<div class="example-container">
+  <mat-toolbar class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="example-app-name">Personnel-Management</h1>
+  </mat-toolbar>
 
+  <mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #snav>
+      <mat-nav-list>
+        @for(nav of fillerNav; track nav){
+        @if(nav.children && nav.children.length > 0){
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>{{nav.icon}}</mat-icon>
+              <span>{{nav.label}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            @for(child of nav.children; track child;){
+            <a mat-list-item (click)="child.command()">
+              <div class="list-item child-item">
+                <mat-icon>{{child.icon}}</mat-icon>
+                <span>{{child.label}}</span>
+              </div>
+            </a>
+            }
+          </mat-nav-list>
+        </mat-expansion-panel>
+        } @else {
+        <a mat-list-item (click)="nav.command()">
+          <div class="list-item">
+            <mat-icon>{{nav.icon}}</mat-icon>
+            <span>{{nav.label}}</span>
+          </div>
+        </a>
+        }
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
