@@ -5,7 +5,6 @@ import {
   Inject,
   ElementRef,
 } from '@angular/core';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import {
   FormBuilder,
   FormGroup,
@@ -15,7 +14,6 @@ import {
   FormArray,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { distinctUntilChanged } from 'rxjs';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';

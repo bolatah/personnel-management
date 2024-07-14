@@ -5,7 +5,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BehaviorSubject, filter, map, Observable, take, tap } from 'rxjs';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeeService } from 'src/app/services/employee.service';
