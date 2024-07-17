@@ -92,12 +92,12 @@ export class EmployeeService {
         return employees.filter((employee) => {
           const birthdayStr = employee.personalInformation.birthday;
           if (!birthdayStr) {
-            return false; // Skip employees without a birthday
+            return false; 
           }
 
           const birthday = new Date(birthdayStr);
           if (isNaN(birthday.getTime())) {
-            return false; // Skip invalid dates
+            return false; 
           }
 
           const birthdayThisYear = new Date(
