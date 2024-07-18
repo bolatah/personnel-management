@@ -1,1 +1,1 @@
-web: npx http-server static -p $PORT
+web: npx http-server static -p $PORT --proxy http://localhost:$PORT?/
